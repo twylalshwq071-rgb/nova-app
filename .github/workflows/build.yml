@@ -10,13 +10,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Enter project directory and build
-        working-directory: ./NovaMusicPlayer
+      - name: Build APK
         run: |
+          GRADLEW_PATH=$(find . -name "gradlew" | head -n 1)
+          PROJECT_DIR=$(dirname "$GRADLEW_PATH")
+          cd "$PROJECT_DIR"
           chmod +x gradlew
           ./gradlew assembleDebug
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: NovaMusicPlayer-APK
-          path: NovaMusicPlayer/app/build/outputs/apk/debug/app-debug.apk
+          path: "**/app-debug.apk"
